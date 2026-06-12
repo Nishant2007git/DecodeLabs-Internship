@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InternHub — Premium Internship Management Platform</title>
+    <meta name="description" content="Connect top university talent with hyper-growth startups. Vetted matching indexes, real-time application pipelines, and global stipend payouts." />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="landing-page">
+    <!-- Floating Header -->
+    <header class="landing-header" style="position: fixed; top: 0; left: 0; right: 0; background: var(--bg-nav); backdrop-filter: blur(20px) saturate(140%); -webkit-backdrop-filter: blur(20px) saturate(140%); border-bottom: 1px solid var(--border-subtle); z-index: 1000; height: 64px; display: flex; align-items: center;">
+      <div class="container flex justify-between align-center" style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
+        <div class="flex align-center gap-2" style="display: flex; align-items: center; gap: 10px; cursor: pointer;" onclick="window.location.href='/'">
+          <span style="width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #4f46e5 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(99,102,241,0.3);">I</span>
+          <span style="font-weight: 800; font-size: 1.25rem; letter-spacing: -0.03em;">InternHub</span>
+        </div>
+
+        <nav class="flex gap-4" style="display: flex; gap: 28px; font-size: 0.875rem;">
+          <a href="#features" style="color: var(--text-secondary); font-weight: 500; transition: color 0.2s;">Features</a>
+          <a href="#about" style="color: var(--text-secondary); font-weight: 500; transition: color 0.2s;">About</a>
+          <a href="#contact" style="color: var(--text-secondary); font-weight: 500; transition: color 0.2s;">Contact</a>
+        </nav>
+
+        <div class="flex gap-2" style="display: flex; gap: 12px;">
+          <button class="btn btn-outline" onclick="window.location.href='/login.html'">Log In</button>
+          <button class="btn btn-primary" onclick="window.location.href='/register.html'">Sign Up</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Showcase Section -->
+    <section class="container animate-fade hero-section" style="text-align: center; margin-top: 150px; position: relative; padding-bottom: 60px;">
+      <!-- Decorative glow orb -->
+      <div style="position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; background: radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, rgba(59,130,246,0.06) 40%, transparent 70%); pointer-events: none; z-index: 0;"></div>
+
+      <!-- Glowing Badge -->
+      <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); padding: 6px 16px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; color: var(--primary); margin-bottom: 28px; backdrop-filter: blur(10px); position: relative; z-index: 1;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulseGlow 2s ease-in-out infinite;"></span>
+        InternHub v2.0 &mdash; Full Stack Architecture
+      </div>
+
+      <h1 style="font-size: clamp(2.5rem, 5.5vw, 4.5rem); font-weight: 900; letter-spacing: -0.045em; max-width: 850px; margin: 0 auto 28px auto; background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-primary) 40%, var(--primary) 80%, var(--secondary) 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 6s ease-in-out infinite; line-height: 1.08; position: relative; z-index: 1;">
+        The Elite Pipeline for<br>Engineering Interns
+      </h1>
+
+      <p style="font-size: 1.15rem; color: var(--text-secondary); max-width: 580px; margin: 0 auto 40px auto; line-height: 1.7; position: relative; z-index: 1;">
+        Empower students and recruiters through fully-verified technical portfolios, automated matching scores, and streamlined stipend routing.
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 80px; position: relative; z-index: 1;">
+        <button class="btn btn-primary" style="padding: 14px 28px; font-size: 0.95rem;" onclick="window.location.href='/register.html'">
+          Get Started Free &rarr;
+        </button>
+        <button class="btn btn-outline" style="padding: 14px 28px; font-size: 0.95rem;" onclick="window.location.href='/login.html'">
+          Enterprise Demo
+        </button>
+      </div>
+
+      <!-- Floating mock dashboard preview -->
+      <div class="glass-card" style="max-width: 800px; margin: 0 auto; padding: 0; overflow: hidden; border-radius: var(--radius-lg); position: relative; z-index: 1;">
+        <div style="background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, rgba(52,211,153,0.04) 100%); padding: 24px;">
+          <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444;"></span>
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #fbbf24;"></span>
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #34d399;"></span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px;">
+              <div style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px;">Matching Index</div>
+              <div style="font-size: 2rem; font-weight: 800; color: var(--accent);">94.8%</div>
+              <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">Top 10% fit</div>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px;">
+              <div style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px;">Active Listings</div>
+              <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">482</div>
+              <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">Company partners</div>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px;">
+              <div style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px;">Avg Time-to-Hire</div>
+              <div style="font-size: 2rem; font-weight: 800; color: var(--secondary);">11 Days</div>
+              <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">Industry leading</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners Ticker -->
+    <section style="background: rgba(255,255,255,0.01); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); padding: 28px 0; text-align: center;">
+      <div class="container flex flex-col gap-2 align-center" style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+        <span style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em;">
+          Trusted by technical teams globally
+        </span>
+        <div class="flex gap-6 justify-center" style="display: flex; gap: 48px; font-family: var(--font-mono); font-weight: 700; font-size: 1rem; opacity: 0.5; flex-wrap: wrap;">
+          <span>▲ Linear</span>
+          <span>💳 Stripe</span>
+          <span>▲ Vercel</span>
+          <span>💡 Notion</span>
+          <span>🎨 Figma</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bento Grid Section -->
+    <section id="features" class="container" style="margin-top: 100px;">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <span style="display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 10px;">Features</span>
+        <h2 style="margin-bottom: 12px;">Built for Technical Vetting</h2>
+        <p style="max-width: 500px; margin: 0 auto; color: var(--text-secondary);">Linear design features for modern university cohorts.</p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6">
+        <div class="glass-card" style="grid-column: span 2;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <span style="width: 36px; height: 36px; border-radius: 10px; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">🎯</span>
+            <h3 style="margin: 0;">Vetted Matching Score</h3>
+          </div>
+          <p style="font-size: 0.875rem; line-height: 1.65;">Algorithms automatically parse candidate GitHub repositories, skills tags, and database queries to index fit percentile scores for every applicant.</p>
+          <div style="background: rgba(52,211,153,0.05); border: 1px solid rgba(52,211,153,0.12); padding: 14px 18px; border-radius: 10px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; font-weight: 600;">✓ React Canvas Optimization Index</span>
+            <span class="badge badge-accent">98th Percentile</span>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <span style="width: 36px; height: 36px; border-radius: 10px; background: rgba(129, 140, 248, 0.1); border: 1px solid rgba(129, 140, 248, 0.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">📄</span>
+            <h3 style="margin: 0;">Resume Simulator</h3>
+          </div>
+          <p style="font-size: 0.875rem; line-height: 1.65;">A live Notion-style formatting engine outputs paper previews instantly with SOC2 compliance.</p>
+          <div style="background: rgba(255,255,255,0.02); padding: 14px; border-radius: 10px; border: 1px solid var(--border-glass); margin-top: 18px;">
+            <div style="font-size: 0.85rem; font-weight: 700;">Nisha Sharma</div>
+            <span style="color: var(--text-muted); font-size: 0.75rem;">Stanford CS Undergraduate</span>
+            <div style="display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap;">
+              <span style="background: var(--primary-glow); padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; color: var(--primary); font-weight: 600;">React</span>
+              <span style="background: rgba(52,211,153,0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; color: var(--accent); font-weight: 600;">Node.js</span>
+              <span style="background: rgba(96,165,250,0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; color: var(--secondary); font-weight: 600;">Go</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second row of features -->
+      <div class="grid grid-cols-3 gap-6" style="margin-top: 20px;">
+        <div class="glass-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <span style="width: 36px; height: 36px; border-radius: 10px; background: rgba(96, 165, 250, 0.1); border: 1px solid rgba(96, 165, 250, 0.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">📊</span>
+            <h3 style="margin: 0;">Pipeline Kanban</h3>
+          </div>
+          <p style="font-size: 0.875rem; line-height: 1.65;">Track applications through 5 stages &mdash; from Applied to Offered &mdash; with drag-and-drop visualization.</p>
+        </div>
+
+        <div class="glass-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <span style="width: 36px; height: 36px; border-radius: 10px; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">✉️</span>
+            <h3 style="margin: 0;">Secure Messaging</h3>
+          </div>
+          <p style="font-size: 0.875rem; line-height: 1.65;">Real-time encrypted chat between candidates and recruiters with threaded conversations.</p>
+        </div>
+
+        <div class="glass-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <span style="width: 36px; height: 36px; border-radius: 10px; background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">🔒</span>
+            <h3 style="margin: 0;">Role-Based Access</h3>
+          </div>
+          <p style="font-size: 0.875rem; line-height: 1.65;">Student, Recruiter, and Admin workspaces with dedicated dashboards, moderation, and analytics.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Module Section -->
+    <section id="about" class="container" style="margin-top: 120px; padding: 40px 0;">
+      <div class="grid responsive-grid-1-1" style="align-items: center; gap: 48px;">
+        <div>
+          <span style="display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 12px;">About InternHub</span>
+          <h2 style="margin-bottom: 18px; font-size: 2.25rem;">Vetted Pipeline<br>Ecosystem</h2>
+          <p style="font-size: 1rem; line-height: 1.7; margin-bottom: 24px;">
+            InternHub bridges the gap between top university developers and elite startups. Founded with a vision to automate onboarding, compliance, and payments, the platform provides direct W-2/1099 contracts and real-time project tracking.
+          </p>
+          <div class="flex flex-col gap-2" style="display: flex; flex-direction: column; gap: 14px;">
+            <div class="flex align-center gap-2" style="display: flex; align-items: center; gap: 10px;">
+              <span style="width: 24px; height: 24px; border-radius: 6px; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--accent);">✓</span>
+              <span style="font-size: 0.9rem; font-weight: 500;">SOC2 Type II Vetted & HIPAA Compliant</span>
+            </div>
+            <div class="flex align-center gap-2" style="display: flex; align-items: center; gap: 10px;">
+              <span style="width: 24px; height: 24px; border-radius: 6px; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--accent);">✓</span>
+              <span style="font-size: 0.9rem; font-weight: 500;">Automatic stipend escrow integration</span>
+            </div>
+            <div class="flex align-center gap-2" style="display: flex; align-items: center; gap: 10px;">
+              <span style="width: 24px; height: 24px; border-radius: 6px; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--accent);">✓</span>
+              <span style="font-size: 0.9rem; font-weight: 500;">Multi-role admin & moderation queue</span>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card" style="padding: 32px; background: linear-gradient(135deg, rgba(99,102,241,0.04) 0%, rgba(52,211,153,0.04) 100%); border-radius: var(--radius-lg);">
+          <h3 style="margin-bottom: 20px; font-size: 1.1rem;">Our Growth Statistics</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px;">
+            <div>
+              <div style="font-size: 2.25rem; font-weight: 900; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">12k+</div>
+              <p style="font-size: 0.75rem; margin-top: 4px;">Active candidates</p>
+            </div>
+            <div>
+              <div style="font-size: 2.25rem; font-weight: 900; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--secondary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">400+</div>
+              <p style="font-size: 0.75rem; margin-top: 4px;">Company partners</p>
+            </div>
+            <div>
+              <div style="font-size: 2.25rem; font-weight: 900; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--accent), var(--warning)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$4.8M</div>
+              <p style="font-size: 0.75rem; margin-top: 4px;">Escrowed stipends paid</p>
+            </div>
+            <div>
+              <div style="font-size: 2.25rem; font-weight: 900; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--warning), var(--error)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">11 Days</div>
+              <p style="font-size: 0.75rem; margin-top: 4px;">Avg time-to-hire</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Page Section -->
+    <section id="contact" class="container" style="margin-top: 120px; padding-bottom: 120px;">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <span style="display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 10px;">Get in Touch</span>
+        <h2 style="margin-bottom: 12px;">Connect With Our Team</h2>
+        <p style="max-width: 450px; margin: 0 auto; color: var(--text-secondary);">Have questions about pricing, compliance, or setups? We'd love to hear from you.</p>
+      </div>
+
+      <div style="max-width: 480px; margin: 0 auto;">
+        <div class="glass-card" style="padding: 32px; border-radius: var(--radius-lg);">
+          <form id="contact-form" onsubmit="event.preventDefault(); alert('Message successfully sent! Our managers will contact you shortly.'); this.reset();" style="display: flex; flex-direction: column; gap: 18px;">
+            <div class="form-group">
+              <label class="label">Full Name</label>
+              <input type="text" class="input" placeholder="Nisha Sharma" required />
+            </div>
+            <div class="form-group">
+              <label class="label">Email Address</label>
+              <input type="email" class="input" placeholder="name@company.com" required />
+            </div>
+            <div class="form-group">
+              <label class="label">Your Message</label>
+              <textarea class="input" rows="4" placeholder="Briefly describe your enquiry..." style="resize: none;" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit" style="margin-top: 4px;">Send Message &rarr;</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="border-top: 1px solid var(--border-subtle); padding: 32px 0; text-align: center;">
+      <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 0.7rem;">I</span>
+          <span style="font-weight: 700; font-size: 0.9rem; letter-spacing: -0.02em;">InternHub</span>
+        </div>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">© 2026 InternHub Inc. All rights reserved. DecodeLabs Full Stack Progression System.</span>
+      </div>
+    </footer>
+  </body>
+</html>

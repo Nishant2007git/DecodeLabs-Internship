@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — InternHub</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="dashboard-page">
+    <!-- Responsive Viewport Simulator Wrapper -->
+    <div id="viewport-wrapper" class="">
+      <div id="viewport-frame" class="">
+        <div id="phone-notch" class="" style="display: none;"></div>
+
+        <!-- Mobile Sidebar Backdrop Overlay -->
+        <div id="sidebar-backdrop" onclick="toggleMobileSidebar()" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); z-index: 1008; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);"></div>
+
+        <!-- Core Dashboard Layout -->
+        <div class="dashboard-layout">
+          <!-- Sidebar Navigation -->
+          <aside class="sidebar">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #4f46e5 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 1.05rem; box-shadow: 0 4px 12px rgba(99,102,241,0.25);">I</span>
+              <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em;">InternHub</span>
+            </div>
+
+            <!-- Sidebar Navigation Links (Dynamically loaded by script) -->
+            <nav class="sidebar-nav" id="sidebar-nav"></nav>
+
+            <!-- User widget bottom -->
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 18px; display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; box-shadow: 0 2px 8px rgba(99,102,241,0.2);" id="user-avatar">U</div>
+                <div>
+                  <div style="font-size: 0.8rem; font-weight: 600;" id="user-name">User Name</div>
+                  <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;" id="user-role-label">Workspace</div>
+                </div>
+              </div>
+              <button onclick="handleLogout()" style="background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.15); color: var(--error); cursor: pointer; padding: 6px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; font-family: var(--font-sans); transition: all 0.15s;" title="Log Out" onmouseenter="this.style.background='rgba(248,113,113,0.15)'" onmouseleave="this.style.background='rgba(248,113,113,0.08)'">
+                Logout
+              </button>
+            </div>
+          </aside>
+
+          <!-- Main Contents panel -->
+          <main style="flex: 1; display: flex; flex-direction: column;">
+            <!-- Top Header Navbar -->
+            <header class="dashboard-header" style="height: 64px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-6); background: var(--bg-nav); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); z-index: 100;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <button id="sidebar-toggle" onclick="toggleMobileSidebar()" style="background: transparent; border: 1px solid var(--border-glass); color: var(--text-primary); font-size: 1.2rem; cursor: pointer; padding: 6px 10px; border-radius: 8px; display: none; transition: all 0.15s;">☰</button>
+                <div class="mobile-logo-header" style="display: none; align-items: center; gap: 8px;">
+                  <span style="width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 0.75rem;">I</span>
+                  <span style="font-weight: 800; font-size: 1rem; letter-spacing: -0.03em;">InternHub</span>
+                </div>
+                <div class="dashboard-context">
+                  <span id="workspace-context-label">Student workspace</span>
+                  <strong id="workspace-context-title">Dashboard</strong>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <span class="system-status"><i></i> All systems operational</span>
+                <!-- Notification Bell -->
+                <button class="notification-button" aria-label="Open notifications" onclick="toggleAlertsDrawer()" style="position: relative; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); color: var(--text-secondary); cursor: pointer; padding: 8px 10px; border-radius: 10px; transition: all 0.15s; font-size: 1rem;" onmouseenter="this.style.borderColor='var(--border-highlight)'" onmouseleave="this.style.borderColor='var(--border-glass)'">
+                  🔔
+                  <span id="unread-alert-dot" style="position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--error); display: none; box-shadow: 0 0 8px rgba(248,113,113,0.5);"></span>
+                </button>
+              </div>
+            </header>
+
+            <!-- Alerts Drawer panel -->
+            <div id="alerts-drawer" class="glass-card" style="display: none; position: absolute; top: 72px; right: 24px; width: 340px; z-index: 999; padding: 18px; background: var(--bg-surface); border-color: var(--primary); border-radius: var(--radius-lg); box-shadow: 0 20px 50px rgba(0,0,0,0.4);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <h4 style="font-size: 0.9rem; font-weight: 700;">Platform Alerts</h4>
+                <button onclick="clearAlerts()" style="background: var(--primary-glow); border: 1px solid rgba(129,140,248,0.2); color: var(--primary); font-size: 0.7rem; cursor: pointer; padding: 4px 10px; border-radius: 6px; font-weight: 600; font-family: var(--font-sans);">Mark read</button>
+              </div>
+              <div id="alerts-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow-y: auto;">
+                <!-- Alerts are dynamically generated -->
+              </div>
+            </div>
+
+            <!-- Dashboard sections -->
+            <div style="padding: var(--space-6); flex: 1; overflow-y: auto;" id="dashboard-content">
+
+              <!-- ==============================================
+                   STUDENT VIEWSECTIONS
+                   ============================================== -->
+              <div id="student-dashboard-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Dashboard</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Your internship pipeline at a glance.</p>
+                </div>
+                <div class="grid grid-cols-4 gap-4" style="margin-bottom: 24px;">
+                  <div class="glass-card">
+                    <span class="label">Matching index</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: var(--accent); margin-top: 10px; letter-spacing: -0.02em;">94.8%</div>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">Top 10% fit match</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Applications Sent</span>
+                    <div id="student-apps-count" style="font-size: 1.85rem; font-weight: 900; margin-top: 10px; letter-spacing: -0.02em;">0 Jobs</div>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">Applications tracked</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Interviews Scheduled</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: var(--secondary); margin-top: 10px; letter-spacing: -0.02em;">1 Active</div>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">Linear Zoom tomorrow</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Vetted Offer Extended</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: var(--primary); margin-top: 10px; letter-spacing: -0.02em;">1 Offer</div>
+                    <span style="font-size: 0.7rem; color: var(--accent);">Notion contract ready</span>
+                  </div>
+                </div>
+
+                <div class="grid responsive-grid-2-1" style="margin-bottom: 24px;">
+                  <div class="glass-card">
+                    <div class="glass-header">
+                      <div>
+                        <h3>Skill Score Progress</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary);">Competency ratings breakdown</p>
+                      </div>
+                    </div>
+                    <!-- Custom SVG graph visualization -->
+                    <div style="height: 180px; position: relative;">
+                      <svg width="100%" height="100%" viewBox="0 0 500 200" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#818cf8"/>
+                            <stop offset="100%" stop-color="#34d399"/>
+                          </linearGradient>
+                          <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="rgba(99,102,241,0.2)"/>
+                            <stop offset="100%" stop-color="rgba(99,102,241,0)"/>
+                          </linearGradient>
+                        </defs>
+                        <line x1="0" y1="50" x2="500" y2="50" stroke="rgba(255,255,255,0.03)" />
+                        <line x1="0" y1="100" x2="500" y2="100" stroke="rgba(255,255,255,0.03)" />
+                        <line x1="0" y1="150" x2="500" y2="150" stroke="rgba(255,255,255,0.03)" />
+                        <path d="M0,150 Q120,110 240,70 T480,30 L500,20 L500,200 L0,200 Z" fill="url(#fillGrad)" />
+                        <path d="M0,150 Q120,110 240,70 T480,30" fill="none" stroke="url(#lineGrad)" stroke-width="3" stroke-linecap="round" />
+                        <circle cx="240" cy="70" r="5" fill="var(--secondary)" stroke="rgba(96,165,250,0.3)" stroke-width="3" />
+                        <circle cx="480" cy="30" r="5" fill="var(--accent)" stroke="rgba(52,211,153,0.3)" stroke-width="3" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="glass-card">
+                    <h3 style="margin-bottom: 14px;">Profile Strength</h3>
+                    <div style="display: flex; flex-direction: column; gap: 14px;">
+                      <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px;">
+                          <span>Completeness</span>
+                          <strong style="color: var(--accent);">85%</strong>
+                        </div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.04); border-radius: 4px; overflow: hidden;">
+                          <div style="height: 100%; width: 85%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 4px; transition: width 1s var(--ease-out-expo);"></div>
+                        </div>
+                      </div>
+                      <p style="font-size: 0.725rem; color: var(--text-muted);">Add certificates & upload credentials to achieve 100% verification.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="glass-card">
+                  <h3 style="margin-bottom: 14px;">Vetted Pipeline Snapshot</h3>
+                  <div class="table-container">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Internship Role</th>
+                          <th>Company</th>
+                          <th>Salary Stipend</th>
+                          <th>Stage</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="student-dashboard-table-body">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Student Marketplace Section -->
+              <div id="student-marketplace-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Marketplace</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Browse vetted internship listings.</p>
+                </div>
+                <div style="display: flex; gap: 14px; margin-bottom: 24px;">
+                  <div style="flex: 1; position: relative;">
+                    <input type="text" id="marketplace-search" class="input" placeholder="Search by company, role or stack..." style="padding-left: 14px;" oninput="renderMarketplace()" />
+                  </div>
+                  <select id="marketplace-filter" class="select" style="width: 180px;" onchange="renderMarketplace()">
+                    <option value="All">All Locations</option>
+                    <option value="Remote">Remote Only</option>
+                    <option value="Hybrid">Hybrid/On-site</option>
+                  </select>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6" id="marketplace-grid">
+                  <!-- Loaded dynamically -->
+                </div>
+              </div>
+
+              <!-- Student Detail Section -->
+              <div id="student-detail-section" class="workspace-section" style="display: none;">
+                <button class="btn btn-outline" onclick="switchTab('student_marketplace')" style="margin-bottom: 20px;">← Back to Marketplace</button>
+                
+                <div class="grid responsive-grid-2-1">
+                  <div class="glass-card" id="detail-job-card">
+                    <!-- Dynamic details load here -->
+                  </div>
+                  <div class="glass-card">
+                    <h3>Submit Application</h3>
+                    <form id="apply-job-form" onsubmit="handleApplySubmit(event)" style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+                      <input type="hidden" id="apply-job-id" />
+                      <div class="form-group">
+                        <label class="label">Vetted Candidate Profile</label>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary);" id="apply-user-name">Nisha Sharma</p>
+                      </div>
+                      <div class="form-group">
+                        <label class="label">Cover Pitch</label>
+                        <textarea id="apply-cover" class="input" rows="4" style="resize: none;" placeholder="Explain why you are qualified for this technical role..." required></textarea>
+                      </div>
+                      <button class="btn btn-primary" type="submit">Submit Vetted Application &rarr;</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Student Application Kanban Section -->
+              <div id="student-kanban-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Pipeline Kanban</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Track your application progress.</p>
+                </div>
+                <div class="kanban-grid">
+                  <div class="kanban-col" id="kanban-Applied">
+                    <h4 style="margin-bottom: 12px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Applied</h4>
+                    <div class="kanban-cards-stack"></div>
+                  </div>
+                  <div class="kanban-col" id="kanban-Reviewing">
+                    <h4 style="margin-bottom: 12px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Reviewing</h4>
+                    <div class="kanban-cards-stack"></div>
+                  </div>
+                  <div class="kanban-col" id="kanban-Interviewing">
+                    <h4 style="margin-bottom: 12px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Interviewing</h4>
+                    <div class="kanban-cards-stack"></div>
+                  </div>
+                  <div class="kanban-col" id="kanban-Offered">
+                    <h4 style="margin-bottom: 12px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Offered</h4>
+                    <div class="kanban-cards-stack"></div>
+                  </div>
+                  <div class="kanban-col" id="kanban-Archived">
+                    <h4 style="margin-bottom: 12px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Archived</h4>
+                    <div class="kanban-cards-stack"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Student Resume Builder Section -->
+              <div id="student-resume-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Resume Builder</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Build and preview your ATS-optimized resume.</p>
+                </div>
+                <div class="grid responsive-grid-1-1">
+                  <div class="glass-card">
+                    <h3>Resume Form</h3>
+                    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+                      <div class="form-group">
+                        <label class="label">Full Name</label>
+                        <input type="text" id="resume-name" class="input" value="Nisha Sharma" oninput="updateResumePreview()" />
+                      </div>
+                      <div class="form-group">
+                        <label class="label">Professional Title</label>
+                        <input type="text" id="resume-title" class="input" value="Computer Science Undergrad" oninput="updateResumePreview()" />
+                      </div>
+                      <div class="form-group">
+                        <label class="label">Education Details</label>
+                        <input type="text" id="resume-education" class="input" value="Stanford University - BS in Computer Science (GPA: 3.9)" oninput="updateResumePreview()" />
+                      </div>
+                      <div class="form-group">
+                        <label class="label">Work Experience Summary</label>
+                        <textarea id="resume-experience" class="input" rows="3" style="resize: none;" oninput="updateResumePreview()">Worked on React dashboard widgets and Express SQL routers during summer co-ops.</textarea>
+                      </div>
+                      <div class="form-group">
+                        <label class="label">Skills tags (Comma separated)</label>
+                        <input type="text" id="resume-skills" class="input" value="React, Go, PostgreSQL, CSS Variables, Git, Node.js" oninput="updateResumePreview()" />
+                      </div>
+                      <button class="btn btn-primary" onclick="alert('ATS Resume PDF Export successful!')">Export ATS PDF &rarr;</button>
+                    </div>
+                  </div>
+                  <div class="resume-paper" id="resume-preview-container">
+                    <!-- Loaded dynamically via updateResumePreview() -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Student Messaging Section -->
+              <div id="student-messaging-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Messenger</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Secure conversations with recruiters.</p>
+                </div>
+                <div class="grid responsive-grid-1-3 messaging-container" style="height: 500px; border: 1px solid var(--border-normal); border-radius: var(--radius-md); overflow: hidden;">
+                  <div class="messaging-sidebar" style="border-right: 1px solid var(--border-normal); padding: 18px; background: rgba(0,0,0,0.12); display: flex; flex-direction: column; gap: 14px;">
+                    <span class="label">Active chats</span>
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <button class="btn btn-outline" style="text-align: left; justify-content: flex-start; padding: 10px;" onclick="selectChannel('Linear Recruitment')">✉ Linear Recruitment</button>
+                      <button class="btn btn-outline" style="text-align: left; justify-content: flex-start; padding: 10px;" onclick="selectChannel('Stripe Talent')">✉ Stripe Talent</button>
+                    </div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; height: 100%; padding: 20px;">
+                    <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px; margin-bottom: 16px;">
+                      <h4 id="chat-header">Linear Recruitment</h4>
+                      <span style="font-size: 0.7rem; color: var(--text-muted);">Response Vetting Time: Immediate</span>
+                    </div>
+                    <div id="chat-stream" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+                      <!-- Load mock messages -->
+                    </div>
+                    <form id="chat-form" onsubmit="sendChatMessage(event)" style="display: flex; gap: 10px;">
+                      <input type="text" id="chat-msg" class="input" placeholder="Type secure message..." required />
+                      <button class="btn btn-primary" type="submit">Send</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Student Settings Section -->
+              <div id="student-settings-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Settings</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Configure your platform preferences.</p>
+                </div>
+                <div style="max-width: 600px;">
+                  <div class="glass-card">
+                    <h3>Platform Settings</h3>
+                    <div style="display: flex; flex-direction: column; gap: 18px; margin-top: 18px;">
+                      <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-subtle);">
+                        <span style="font-size: 0.875rem;">Enable stipend alerts (&gt; $5,000/mo)</span>
+                        <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--primary);" />
+                      </div>
+                      <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-subtle);">
+                        <span style="font-size: 0.875rem;">Publish profiles in recruiter catalog</span>
+                        <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--primary);" />
+                      </div>
+                      <button class="btn btn-primary" onclick="alert('Settings parameters updated!')">Save Settings &rarr;</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- ==============================================
+                   RECRUITER VIEWSECTIONS
+                   ============================================== -->
+              <div id="recruiter-dashboard-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Recruiter Overview</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Manage your listings and candidate pipeline.</p>
+                </div>
+                <div class="grid grid-cols-4 gap-4" style="margin-bottom: 24px;">
+                  <div class="glass-card">
+                    <span class="label">Active job vacancies</span>
+                    <div id="recruiter-active-count" style="font-size: 1.85rem; font-weight: 900; color: var(--primary); margin-top: 10px; letter-spacing: -0.02em;">2 Active</div>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">1 vacancy filled</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Total Applicants</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; margin-top: 10px; letter-spacing: -0.02em;">18 Applicants</div>
+                    <span style="font-size: 0.7rem; color: var(--accent);">+4 new matches today</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Interviews Booked</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: var(--secondary); margin-top: 10px; letter-spacing: -0.02em;">4 Pending</div>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">Next: 2:00 PM EST</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Conversion index</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: var(--accent); margin-top: 10px; letter-spacing: -0.02em;">89.2%</div>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">Average platform rating</span>
+                  </div>
+                </div>
+
+                <div class="grid responsive-grid-2-1">
+                  <div class="glass-card">
+                    <h3>Active Postings Console</h3>
+                    <div class="table-container" style="margin-top: 16px;">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Job Title</th>
+                            <th>Vetting status</th>
+                            <th>Stipend Salary</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody id="recruiter-jobs-table-body">
+                          <!-- Loaded dynamically -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="glass-card">
+                    <h3 style="margin-bottom: 12px;">Start Recruitment</h3>
+                    <p style="font-size: 0.8rem; margin-bottom: 16px;">Post a new vacancy request. Our parser indexes candidates matching qualifications automatically.</p>
+                    <button class="btn btn-primary" onclick="switchTab('recruiter_postjob')">Post Internship Listing &rarr;</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recruiter Post Job Section -->
+              <div id="recruiter-postjob-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Post an Internship</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Create and publish a new vacancy listing.</p>
+                </div>
+                <div style="max-width: 600px;">
+                  <div class="glass-card">
+                    <form id="post-job-form" onsubmit="handlePostJobSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+                      <div class="form-group">
+                        <label class="label">Role Title</label>
+                        <input type="text" id="post-title" class="input" placeholder="e.g. Systems Engineer" required />
+                      </div>
+                      <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                          <label class="label">Duration</label>
+                          <input type="text" id="post-duration" class="input" placeholder="e.g. 3 Months" required />
+                        </div>
+                        <div class="form-group">
+                          <label class="label">Stipend Salary</label>
+                          <input type="text" id="post-stipend" class="input" placeholder="e.g. $6,500/mo" required />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="label">Job Scope description</label>
+                        <textarea id="post-description" class="input" rows="4" style="resize: none;" placeholder="Explain projects the student will own..." required></textarea>
+                      </div>
+                      <button class="btn btn-primary" type="submit">Submit & Publish Job &rarr;</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recruiter Candidates Pipeline Section -->
+              <div id="recruiter-candidates-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Candidates Pipeline</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Review and manage applications.</p>
+                </div>
+                <div class="glass-card">
+                  <div class="table-container">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Candidate Name</th>
+                          <th>Applied Job</th>
+                          <th>Application status</th>
+                          <th>Modify Stage</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="recruiter-candidates-table-body">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- ==============================================
+                   ADMIN VIEWSECTIONS
+                   ============================================== -->
+              <div id="admin-dashboard-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">System Metrics</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Platform-wide analytics and health.</p>
+                </div>
+                <div class="grid grid-cols-4 gap-4" style="margin-bottom: 24px;">
+                  <div class="glass-card">
+                    <span class="label">Total Platform Users</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: var(--primary); margin-top: 10px; letter-spacing: -0.02em;">12,840</div>
+                    <span style="font-size: 0.7rem; color: var(--accent);">+18% growth index</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Applications Routed</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; margin-top: 10px; letter-spacing: -0.02em;">43,920</div>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">SOC2 compliant</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Active Companies</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: var(--secondary); margin-top: 10px; letter-spacing: -0.02em;">482 Partners</div>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">Vetted integrations</span>
+                  </div>
+                  <div class="glass-card">
+                    <span class="label">Database uptime</span>
+                    <div style="font-size: 1.85rem; font-weight: 900; color: var(--accent); margin-top: 10px; letter-spacing: -0.02em;">99.98%</div>
+                    <span style="font-size: 0.7rem; color: var(--accent);">LATENCY: 110ms</span>
+                  </div>
+                </div>
+
+                <div class="grid responsive-grid-2-1" style="margin-bottom: 24px;">
+                  <div class="glass-card">
+                    <h3>Database Health & Traffic</h3>
+                    <div style="height: 180px; margin-top: 16px;">
+                      <svg width="100%" height="100%" viewBox="0 0 500 200" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="barGrad1" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#818cf8"/>
+                            <stop offset="100%" stop-color="#6366f1"/>
+                          </linearGradient>
+                          <linearGradient id="barGrad2" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#60a5fa"/>
+                            <stop offset="100%" stop-color="#3b82f6"/>
+                          </linearGradient>
+                          <linearGradient id="barGrad3" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#34d399"/>
+                            <stop offset="100%" stop-color="#10b981"/>
+                          </linearGradient>
+                        </defs>
+                        <rect x="30" y="80" width="45" height="120" fill="url(#barGrad1)" rx="6" />
+                        <rect x="110" y="50" width="45" height="150" fill="url(#barGrad1)" rx="6" />
+                        <rect x="190" y="30" width="45" height="170" fill="url(#barGrad2)" rx="6" />
+                        <rect x="270" y="45" width="45" height="155" fill="url(#barGrad2)" rx="6" />
+                        <rect x="350" y="20" width="45" height="180" fill="url(#barGrad3)" rx="6" />
+                        <rect x="430" y="10" width="45" height="190" fill="url(#barGrad3)" rx="6" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="glass-card">
+                    <h3>Service Checks</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px; font-size: 0.85rem;">
+                      <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border-subtle);">
+                        <span>Postgres Server</span> <span class="badge badge-accent">Operational</span>
+                      </div>
+                      <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border-subtle);">
+                        <span>Stripe APIs</span> <span class="badge badge-accent">Operational</span>
+                      </div>
+                      <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0;">
+                        <span>Server Port 3000</span> <span class="badge badge-accent">Listening</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="glass-card">
+                  <h3>Platform user logs</h3>
+                  <div class="table-container" style="margin-top: 16px;">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>User ID</th>
+                          <th>Full Name</th>
+                          <th>Email Address</th>
+                          <th>Platform Role</th>
+                          <th>Account status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="admin-users-table-body">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Admin Moderation Queue Section -->
+              <div id="admin-moderation-section" class="workspace-section" style="display: none;">
+                <div style="margin-bottom: 24px;">
+                  <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Moderation Queue</h2>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Review and approve pending listings.</p>
+                </div>
+                <div class="glass-card">
+                  <div class="table-container">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Job Title</th>
+                          <th>Stipend</th>
+                          <th>Vetting status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="admin-moderation-table-body">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Interactive Prototype Controller Panel -->
+    <div class="proto-panel">
+      <div class="proto-drawer" id="proto-drawer" style="display: none;">
+        <h4 style="font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em;">Prototype Setups</h4>
+        
+        <!-- Theme toggle button -->
+        <button class="btn btn-secondary" style="width: 100%; text-align: center; padding: 8px; font-size: 0.75rem;" onclick="toggleTheme()">
+          🎨 Toggle Light/Dark
+        </button>
+        
+        <!-- Viewport layout simulator toggle button -->
+        <button class="btn btn-secondary" style="width: 100%; text-align: center; padding: 8px; font-size: 0.75rem;" onclick="toggleViewport()">
+          📱 Toggle Mobile view
+        </button>
+
+        <!-- Force Role Switching Option -->
+        <div style="margin-top: 4px;">
+          <span class="label" style="font-size: 0.6rem;">Switch workspace Role</span>
+          <select id="role-bypass-select" class="select" style="padding: 6px; font-size: 0.75rem; margin-top: 4px;" onchange="bypassRole(this.value)">
+            <option value="student">🎓 Student Space</option>
+            <option value="recruiter">💼 Recruiter Space</option>
+            <option value="admin">🔐 Administrator Space</option>
+          </select>
+        </div>
+      </div>
+      <button class="proto-trigger" onclick="toggleProtoDrawer()">⚙</button>
+    </div>
+
+    <!-- Core Script Logic Load -->
+    <script src="/script.js"></script>
+  </body>
+</html>
